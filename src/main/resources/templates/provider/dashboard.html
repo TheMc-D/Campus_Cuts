@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Provider dashboard - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <h1 th:text="'Dashboard - ' + ${provider.displayName}"></h1>
+    <p><a th:href="@{/providers/{id}(id=${provider.id})}">View public profile</a></p>
+
+    <section>
+        <h2>Services</h2>
+        <ul class="offering-list">
+            <li th:each="offering : ${provider.offerings}">
+                <span th:text="${offering.name}"></span>
+                <span th:text="'$' + ${offering.price}"></span>
+                <span th:text="${offering.durationMinutes} + ' min'"></span>
+                <form th:action="@{/dashboard/services/{id}/delete(id=${offering.id})}" method="post" style="display:inline">
+                    <button type="submit">Remove</button>
+                </form>
+            </li>
+            <li th:if="${provider.offerings.isEmpty()}">No services yet.</li>
+        </ul>
+
+        <form th:action="@{/dashboard/services}" method="post" th:object="${offeringForm}" class="form">
+            <label>Name <input type="text" th:field="*{name}" required/></label>
+            <label>Price <input type="number" step="0.01" min="0" th:field="*{price}" required/></label>
+            <label>Duration (minutes) <input type="number" min="1" th:field="*{durationMinutes}" required/></label>
+            <button type="submit">Add service</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Availability</h2>
+        <table class="availability-table">
+            <tr th:each="slot : ${provider.availabilities}">
+                <td th:text="${slot.dayOfWeek}"></td>
+                <td th:text="${slot.startTime} + ' - ' + ${slot.endTime}"></td>
+                <td>
+                    <form th:action="@{/dashboard/availability/{id}/delete(id=${slot.id})}" method="post">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${provider.availabilities.isEmpty()}">
+                <td>No availability posted yet.</td>
+            </tr>
+        </table>
+
+        <form th:action="@{/dashboard/availability}" method="post" th:object="${availabilityForm}" class="form">
+            <label>Day of week
+                <select th:field="*{dayOfWeek}" required>
+                    <option value="MONDAY">Monday</option>
+                    <option value="TUESDAY">Tuesday</option>
+                    <option value="WEDNESDAY">Wednesday</option>
+                    <option value="THURSDAY">Thursday</option>
+                    <option value="FRIDAY">Friday</option>
+                    <option value="SATURDAY">Saturday</option>
+                    <option value="SUNDAY">Sunday</option>
+                </select>
+            </label>
+            <label>Start time <input type="time" th:field="*{startTime}" required/></label>
+            <label>End time <input type="time" th:field="*{endTime}" required/></label>
+            <button type="submit">Add availability</button>
+        </form>
+        <p class="note">This is informational only — students will message you directly to arrange a time.</p>
+    </section>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

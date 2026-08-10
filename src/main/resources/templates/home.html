@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <section class="hero">
+        <h1>Find a barber, braider, lash or nail tech on your campus</h1>
+        <p>Browse student-run beauty &amp; grooming providers, see prices and reviews, and message them directly.</p>
+        <form action="/search" method="get" class="hero-search">
+            <select name="schoolId" required>
+                <option value="" disabled selected>Choose your school</option>
+                <option th:each="school : ${schools}" th:value="${school.id}" th:text="${school.name + ' (' + school.state + ')'}"></option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

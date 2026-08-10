@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Access denied - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container narrow">
+    <h1>Access denied</h1>
+    <p>You don't have permission to view that page.</p>
+    <a href="/">Go home</a>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

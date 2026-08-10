@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${provider.displayName} + ' - Campus Cuts'"></title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <header class="provider-header">
+        <h1 th:text="${provider.displayName}"></h1>
+        <p th:text="${provider.serviceType}"></p>
+        <p th:if="${provider.locationDetail}" th:text="${provider.locationDetail}"></p>
+        <p th:if="${provider.avgRating != null}" th:text="'★ ' + ${provider.avgRating} + ' (' + ${provider.ratingCount} + ' reviews)'"></p>
+        <p th:if="${provider.avgRating == null}">No reviews yet.</p>
+
+        <div th:if="${authenticated} and ${!isOwnProfile}">
+            <form th:action="@{/providers/{id}/favorite(id=${provider.id})}" method="post" style="display:inline">
+                <button type="submit" th:text="${isFavorited} ? 'Remove favorite' : 'Add favorite'"></button>
+            </form>
+            <form th:action="@{/providers/{id}/message(id=${provider.id})}" method="post" style="display:inline">
+                <button type="submit">Message</button>
+            </form>
+        </div>
+    </header>
+
+    <p th:if="${provider.bio}" th:text="${provider.bio}"></p>
+
+    <section>
+        <h2>Services</h2>
+        <ul class="offering-list">
+            <li th:each="offering : ${provider.offerings}">
+                <span th:text="${offering.name}"></span>
+                <span th:text="'$' + ${offering.price}"></span>
+                <span th:text="${offering.durationMinutes} + ' min'"></span>
+            </li>
+            <li th:if="${provider.offerings.isEmpty()}">No services listed yet.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Availability</h2>
+        <table class="availability-table">
+            <tr th:each="slot : ${provider.availabilities}">
+                <td th:text="${slot.dayOfWeek}"></td>
+                <td th:text="${slot.startTime} + ' - ' + ${slot.endTime}"></td>
+            </tr>
+            <tr th:if="${provider.availabilities.isEmpty()}">
+                <td>No availability posted yet.</td>
+            </tr>
+        </table>
+        <p class="note">This is informational only — message the provider directly to arrange a time.</p>
+    </section>
+
+    <section>
+        <h2>Reviews</h2>
+
+        <form th:if="${authenticated} and ${!isOwnProfile}" th:action="@{/providers/{id}/reviews(id=${provider.id})}"
+              method="post" th:object="${reviewForm}" class="form">
+            <label>Rating (1-5)
+                <input type="number" min="1" max="5" th:field="*{rating}" required/>
+            </label>
+            <label>Review
+                <textarea th:field="*{body}"></textarea>
+            </label>
+            <button type="submit">Post review</button>
+        </form>
+
+        <ul class="review-list">
+            <li th:each="review : ${reviews}">
+                <strong th:text="${review.author.fullName}"></strong>
+                <span th:text="'★ ' + ${review.rating}"></span>
+                <p th:if="${review.body}" th:text="${review.body}"></p>
+                <form th:if="${authenticated}" th:action="@{/reports}" method="post" style="display:inline">
+                    <input type="hidden" name="targetType" value="REVIEW"/>
+                    <input type="hidden" name="targetId" th:value="${review.id}"/>
+                    <input type="hidden" name="returnTo" th:value="@{/providers/{id}(id=${provider.id})}"/>
+                    <button type="submit">Report</button>
+                </form>
+            </li>
+            <li th:if="${reviews.isEmpty()}">No reviews yet.</li>
+        </ul>
+    </section>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

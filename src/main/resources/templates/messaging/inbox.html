@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Messages - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <h1>Messages</h1>
+
+    <ul class="conversation-list">
+        <li th:each="conversation : ${conversations}">
+            <a th:href="@{/messages/{id}(id=${conversation.id})}">
+                <span th:if="${conversation.student.id == currentUser.id}" th:text="${conversation.provider.displayName}"></span>
+                <span th:unless="${conversation.student.id == currentUser.id}" th:text="${conversation.student.fullName}"></span>
+            </a>
+        </li>
+        <li th:if="${conversations.isEmpty()}">No conversations yet.</li>
+    </ul>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,156 @@
+:root {
+    color-scheme: light;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #fafafa;
+    color: #1a1a1a;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.site-header .brand {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.25rem;
+}
+
+.site-header nav a,
+.site-header nav span {
+    color: #eee;
+    margin-left: 1rem;
+    text-decoration: none;
+}
+
+.site-header nav button {
+    margin-left: 1rem;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.container.narrow {
+    max-width: 480px;
+}
+
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.hero-search {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 420px;
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.field-error {
+    color: #c0392b;
+    font-size: 0.8rem;
+}
+
+.error {
+    color: #c0392b;
+}
+
+.success {
+    color: #27ae60;
+}
+
+.note {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.provider-list,
+.offering-list,
+.review-list,
+.conversation-list {
+    list-style: none;
+    padding: 0;
+}
+
+.provider-list li,
+.offering-list li,
+.review-list li,
+.conversation-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.availability-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.availability-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.message-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.message-list li {
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    max-width: 75%;
+}
+
+.message-list li.mine {
+    align-self: flex-end;
+    background: #4361ee;
+    color: #fff;
+}
+
+.message-list li.theirs {
+    align-self: flex-start;
+    background: #eee;
+}
+
+.site-footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: #888;
+    font-size: 0.85rem;
+}

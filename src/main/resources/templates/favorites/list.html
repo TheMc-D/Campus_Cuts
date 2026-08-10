@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Favorites - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <h1>Favorites</h1>
+
+    <ul class="provider-list">
+        <li th:each="favorite : ${favorites}">
+            <a th:href="@{/providers/{id}(id=${favorite.provider.id})}" th:text="${favorite.provider.displayName}"></a>
+        </li>
+        <li th:if="${favorites.isEmpty()}">You haven't favorited any providers yet.</li>
+    </ul>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header th:fragment="header" class="site-header">
+    <a class="brand" href="/">Campus Cuts</a>
+    <nav>
+        <a href="/search">Search</a>
+        <div sec:authorize="isAuthenticated()" style="display:inline">
+            <a href="/favorites">Favorites</a>
+            <a href="/messages">Messages</a>
+            <th:block th:if="${#authentication.principal instanceof T(com.campuscuts.security.AppUserPrincipal)}">
+                <a th:if="${#authentication.principal.user.provider != null}" href="/dashboard">Dashboard</a>
+                <a th:if="${#authentication.principal.user.provider == null}" href="/provider/apply">Become a provider</a>
+            </th:block>
+            <span sec:authentication="name"></span>
+            <form method="post" action="/logout" style="display:inline">
+                <button type="submit">Log out</button>
+            </form>
+        </div>
+        <div sec:authorize="isAnonymous()" style="display:inline">
+            <a href="/login">Log in</a>
+            <a href="/signup">Sign up</a>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

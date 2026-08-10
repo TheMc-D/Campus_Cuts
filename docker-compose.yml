@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: campuscuts-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: campuscuts
+      POSTGRES_USER: campuscuts
+      POSTGRES_PASSWORD: campuscuts_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - campuscuts_pgdata:/var/lib/postgresql/data
+
+volumes:
+  campuscuts_pgdata:

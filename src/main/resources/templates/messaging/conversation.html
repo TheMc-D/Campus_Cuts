@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Conversation - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container narrow">
+    <p><a href="/messages">&larr; Back to messages</a></p>
+    <h1>
+        <span th:if="${conversation.student.id == currentUser.id}" th:text="${conversation.provider.displayName}"></span>
+        <span th:unless="${conversation.student.id == currentUser.id}" th:text="${conversation.student.fullName}"></span>
+    </h1>
+
+    <ul class="message-list">
+        <li th:each="message : ${conversation.messages}" th:class="${message.sender.id == currentUser.id} ? 'mine' : 'theirs'">
+            <p th:text="${message.body}"></p>
+        </li>
+        <li th:if="${conversation.messages.isEmpty()}">No messages yet — say hello!</li>
+    </ul>
+
+    <form th:action="@{/messages/{id}(id=${conversation.id})}" method="post" th:object="${messageForm}" class="form">
+        <textarea th:field="*{body}" required placeholder="Type a message..."></textarea>
+        <button type="submit">Send</button>
+    </form>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

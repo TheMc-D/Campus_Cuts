@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/campuscuts
+    username: campuscuts
+    password: campuscuts_dev_password
+  jpa:
+    show-sql: false
+
+server:
+  port: 8080

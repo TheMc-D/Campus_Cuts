@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Become a provider - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container narrow">
+    <h1>Become a provider</h1>
+
+    <form method="post" th:action="@{/provider/apply}" th:object="${applyForm}" class="form">
+        <label>Display name
+            <input type="text" th:field="*{displayName}" required/>
+            <span class="field-error" th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}"></span>
+        </label>
+        <label>Bio
+            <textarea th:field="*{bio}"></textarea>
+        </label>
+        <label>Service type
+            <select th:field="*{serviceType}" required>
+                <option value="" disabled selected>Choose a service type</option>
+                <option th:each="type : ${serviceTypes}" th:value="${type}" th:text="${type}"></option>
+            </select>
+            <span class="field-error" th:if="${#fields.hasErrors('serviceType')}" th:errors="*{serviceType}"></span>
+        </label>
+        <label>Campus area
+            <select th:field="*{campusAreaId}" required>
+                <option value="" disabled selected>Choose a campus area</option>
+                <option th:each="area : ${campusAreas}" th:value="${area.id}" th:text="${area.name}"></option>
+            </select>
+            <span class="field-error" th:if="${#fields.hasErrors('campusAreaId')}" th:errors="*{campusAreaId}"></span>
+        </label>
+        <label>Location detail (optional)
+            <input type="text" th:field="*{locationDetail}" placeholder="e.g. Suite 204"/>
+        </label>
+        <button type="submit">Submit application</button>
+    </form>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>

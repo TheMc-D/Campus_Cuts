@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Search providers - Campus Cuts</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="container">
+    <h1>Search providers</h1>
+
+    <form action="/search" method="get" class="filter-bar">
+        <select name="schoolId" required>
+            <option value="" disabled th:selected="${filter.schoolId == null}">Choose your school</option>
+            <option th:each="school : ${schools}" th:value="${school.id}" th:text="${school.name + ' (' + school.state + ')'}"
+                    th:selected="${filter.schoolId != null and filter.schoolId == school.id}"></option>
+        </select>
+
+        <select name="serviceType">
+            <option value="">Any service</option>
+            <option th:each="type : ${serviceTypes}" th:value="${type}" th:text="${type}"
+                    th:selected="${filter.serviceType != null and filter.serviceType == type}"></option>
+        </select>
+
+        <input type="text" name="q" placeholder="Search by name or bio" th:value="${filter.q}"/>
+        <button type="submit">Search</button>
+    </form>
+
+    <p th:if="${filter.schoolId == null}">Choose a school above to see providers.</p>
+
+    <ul class="provider-list" th:unless="${filter.schoolId == null}">
+        <li th:each="provider : ${providers}">
+            <a th:href="@{/providers/{id}(id=${provider.id})}">
+                <strong th:text="${provider.displayName}"></strong>
+                <span th:text="${provider.serviceType}"></span>
+                <span th:if="${provider.avgRating != null}" th:text="'★ ' + ${provider.avgRating} + ' (' + ${provider.ratingCount} + ')'"></span>
+            </a>
+        </li>
+        <li th:if="${providers.isEmpty()}">No providers found for this school/filter yet.</li>
+    </ul>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+</body>
+</html>
