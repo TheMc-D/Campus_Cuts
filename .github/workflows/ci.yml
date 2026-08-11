@@ -22,3 +22,63 @@ jobs:
 
       - name: Build and test
         run: mvn -B verify
+
+  screenshots:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Package jar
+        run: mvn -B package -DskipTests
+
+      - name: Start app (demo profile, in-memory H2)
+        run: |
+          nohup java -jar target/campus-cuts-*.jar --spring.profiles.active=demo > app.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://localhost:8080/; then
+              echo "App is up"
+              break
+            fi
+            echo "Waiting for app to start... ($i)"
+            sleep 2
+          done
+          curl -sf http://localhost:8080/ > /dev/null || (cat app.log && exit 1)
+
+      - name: Install headless Chromium
+        run: sudo apt-get update && sudo apt-get install -y chromium-browser
+
+      - name: Capture screenshots
+        run: |
+          mkdir -p screenshots
+          shoot() {
+            chromium-browser --headless --disable-gpu --no-sandbox \
+              --window-size=1280,900 --screenshot="screenshots/$1.png" "$2"
+          }
+          shoot home "http://localhost:8080/"
+          shoot search "http://localhost:8080/search?schoolId=1"
+          shoot login "http://localhost:8080/login"
+          shoot signup "http://localhost:8080/signup"
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-screenshots
+          path: screenshots/*.png
+          retention-days: 7
+
+      - name: Upload app log (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-log
+          path: app.log
+          retention-days: 7
