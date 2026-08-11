@@ -1,12 +1,50 @@
 :root {
     color-scheme: light;
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --accent: #e2694f;
+    --accent-dark: #c44f39;
+    --accent-soft: #f7d9cf;
+    --ink: #2c2126;
+    --ink-soft: #6b5c62;
+    --surface: #ffffff;
+    --page-start: #fff7ef;
+    --page-end: #fbe6df;
+    --border: #f0ddd5;
 }
 
 body {
     margin: 0;
-    background: #fafafa;
-    color: #1a1a1a;
+    min-height: 100vh;
+    color: var(--ink);
+    background: linear-gradient(160deg, var(--page-start) 0%, var(--page-end) 100%) fixed;
+}
+
+a {
+    color: var(--accent-dark);
+}
+
+button,
+.button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.55rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+button:hover,
+.button:hover {
+    background: var(--accent-dark);
+}
+
+button:active,
+.button:active {
+    transform: scale(0.98);
 }
 
 .site-header {
@@ -14,26 +52,32 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    background: #1a1a2e;
+    background: var(--ink);
     color: #fff;
 }
 
 .site-header .brand {
     color: #fff;
     font-weight: 700;
-    text-decoration: none;
     font-size: 1.25rem;
+    text-decoration: none;
+    letter-spacing: 0.01em;
 }
 
 .site-header nav a,
 .site-header nav span {
-    color: #eee;
+    color: #f1e4e0;
     margin-left: 1rem;
     text-decoration: none;
 }
 
+.site-header nav a:hover {
+    color: var(--accent-soft);
+}
+
 .site-header nav button {
     margin-left: 1rem;
+    padding: 0.4rem 1rem;
 }
 
 .container {
@@ -48,14 +92,37 @@ body {
 
 .hero {
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 4rem 1rem 3rem;
+}
+
+.hero h1 {
+    font-size: 2.25rem;
+    max-width: 640px;
+    margin: 0 auto 0.75rem;
+    color: var(--ink);
+}
+
+.hero p {
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 .hero-search {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     display: flex;
     gap: 0.5rem;
     justify-content: center;
+    background: var(--surface);
+    padding: 0.75rem;
+    border-radius: 999px;
+    max-width: 480px;
+    margin-inline: auto;
+    box-shadow: 0 12px 30px -12px rgba(196, 79, 57, 0.25);
+}
+
+.hero-search select {
+    flex: 1;
 }
 
 .filter-bar {
@@ -63,6 +130,33 @@ body {
     gap: 0.5rem;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    background: var(--surface);
+    padding: 0.75rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px -16px rgba(44, 33, 38, 0.15);
+}
+
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="time"],
+textarea {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fff;
+    color: var(--ink);
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--accent-soft);
+    border-color: var(--accent);
 }
 
 .form {
@@ -70,6 +164,10 @@ body {
     flex-direction: column;
     gap: 0.75rem;
     max-width: 420px;
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px -16px rgba(44, 33, 38, 0.15);
 }
 
 .form label {
@@ -77,6 +175,7 @@ body {
     flex-direction: column;
     gap: 0.25rem;
     font-size: 0.9rem;
+    color: var(--ink-soft);
 }
 
 .field-error {
@@ -89,11 +188,11 @@ body {
 }
 
 .success {
-    color: #27ae60;
+    color: #2f7a52;
 }
 
 .note {
-    color: #666;
+    color: var(--ink-soft);
     font-size: 0.85rem;
 }
 
@@ -103,24 +202,50 @@ body {
 .conversation-list {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .provider-list li,
 .offering-list li,
 .review-list li,
 .conversation-list li {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border-radius: 14px;
+    box-shadow: 0 6px 18px -14px rgba(44, 33, 38, 0.2);
+}
+
+.provider-list a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.provider-header {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px -16px rgba(44, 33, 38, 0.15);
+    margin-bottom: 1.5rem;
 }
 
 .availability-table {
     width: 100%;
     border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px -14px rgba(44, 33, 38, 0.2);
 }
 
 .availability-table td {
-    padding: 0.5rem;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
 }
 
 .message-list {
@@ -132,25 +257,26 @@ body {
 }
 
 .message-list li {
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    border-radius: 14px;
     max-width: 75%;
 }
 
 .message-list li.mine {
     align-self: flex-end;
-    background: #4361ee;
+    background: var(--accent);
     color: #fff;
 }
 
 .message-list li.theirs {
     align-self: flex-start;
-    background: #eee;
+    background: var(--surface);
+    box-shadow: 0 4px 12px -8px rgba(44, 33, 38, 0.2);
 }
 
 .site-footer {
     text-align: center;
-    padding: 1.5rem;
-    color: #888;
+    padding: 2rem 1.5rem;
+    color: var(--ink-soft);
     font-size: 0.85rem;
 }
