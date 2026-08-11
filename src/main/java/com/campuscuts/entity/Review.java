@@ -23,7 +23,6 @@ public class Review {
     @Column(nullable = false)
     private Integer rating;
 
-    @Lob
     private String body;
 
     @Column(nullable = false)

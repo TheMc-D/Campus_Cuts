@@ -26,7 +26,6 @@ public class Provider {
     @Column(nullable = false)
     private String displayName;
 
-    @Lob
     private String bio;
 
     @Enumerated(EnumType.STRING)

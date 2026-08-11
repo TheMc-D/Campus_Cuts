@@ -30,7 +30,6 @@ public class Report {
     @Column(nullable = false)
     private Long targetId;
 
-    @Lob
     private String reason;
 
     @Enumerated(EnumType.STRING)
